@@ -1,4 +1,4 @@
-namespace codegen_test;
+namespace codegen_test_ui;
 
 public class WeatherForecast
 {
