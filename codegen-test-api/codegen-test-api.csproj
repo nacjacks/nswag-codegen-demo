@@ -8,16 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-        <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
+        <PackageReference Include="NSwag.AspNetCore" Version="13.18.2" />
+        <PackageReference Include="NSwag.MSBuild" Version="13.18.2">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
-    
-    <PropertyGroup>
-        <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    </PropertyGroup>
 
-    <Target Name="swagger" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' ">
-        <Exec Command="dotnet tool restore" />
-        <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="dotnet tool run swagger tofile --output swagger.json $(OutputPath)$(AssemblyName).dll v1" />
+    <Target Name="NSwag" AfterTargets="Build">
+        <Exec Command="$(NSwagExe_Net60) run nswag.json" />
     </Target>
 </Project>
