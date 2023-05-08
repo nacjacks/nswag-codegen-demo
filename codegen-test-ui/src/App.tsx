@@ -7,7 +7,7 @@ function App() {
   
   React.useEffect(() => {
     async function loadWeather() {
-      const weatherClient = new WeatherForecastClient("https://localhost:7030");
+      const weatherClient = new WeatherForecastClient("https://localhost:7030/api");
       const forecast = await weatherClient.get();
       setWeather(forecast);
     }
