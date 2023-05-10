@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.css';
-import { WeatherForecast, WeatherForecastClient } from './WeatherForecastClient';
+import { IConfig } from './services/ApiBase';
+import { WeatherForecast, WeatherForecastClient } from './services/WeatherForecastClient';
 
 function App() {
   const [weather, setWeather] = React.useState<WeatherForecast[] | null>();
   
   React.useEffect(() => {
     async function loadWeather() {
-      const weatherClient = new WeatherForecastClient("https://localhost:7030/api");
+      const weatherClient = new WeatherForecastClient(new IConfig, "https://localhost:7030/api");
       const forecast = await weatherClient.get();
       setWeather(forecast);
     }
