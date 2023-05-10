@@ -22,7 +22,7 @@ builder.Services.AddOpenApiDocument(c =>
         Name = "Authorization",
         In = OpenApiSecurityApiKeyLocation.Header,
         Type = OpenApiSecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
+        Scheme = JwtBearerDefaults.AuthenticationScheme
     });
 });
 builder.Services.AddControllers(o =>
