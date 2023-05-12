@@ -1,51 +1,27 @@
 import React from 'react';
 import './App.css';
-import { IConfig } from './services/ApiBase';
-import { WeatherForecast, WeatherForecastClient } from './services/WeatherForecastClient';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import Weather from './components/weather/Weather';
+import Login from './components/login/Login';
+
+function Root() {
+    return (
+        <div className="wrapper">
+            <h1>Application</h1>
+            <Routes>
+                <Route path="/" element={<Login />}></Route>
+                <Route path="/weather" element={<Weather />}></Route>
+            </Routes>
+        </div>
+    );
+}
 
 function App() {
-  const [weather, setWeather] = React.useState<WeatherForecast[] | null>();
-  const apiConfig = new IConfig();
-  
-  React.useEffect(() => {
-    async function loadWeather() {
-      const weatherClient = new WeatherForecastClient(apiConfig);
-      const forecast = await weatherClient.get();
-      setWeather(forecast);
-    }
-    loadWeather();
-  }, [setWeather]);
-  
-  return (
-      <div className="App">
-        <header className="App-header">
-          {weather ? (
-              <table>
-                <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Summary</th>
-                  <th>Centigrade</th>
-                  <th>Fahrenheit</th>
-                </tr>
-                </thead>
-                <tbody>
-                {weather.map(({ date, summary, temperatureC, temperatureF }) => (
-                    <tr>
-                      <td>{new Date(date).toLocaleDateString()}</td>
-                      <td>{summary}</td>
-                      <td>{temperatureC}</td>
-                      <td>{temperatureF}</td>
-                    </tr>
-                ))}
-                </tbody>
-              </table>
-          ) : (
-              <p>Loading weather...</p>
-          )}
-        </header>
-      </div>
-  );
+    return (
+        <BrowserRouter>
+            <Root />
+        </BrowserRouter>
+    );
 }
 
 export default App;

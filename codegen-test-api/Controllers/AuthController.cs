@@ -21,7 +21,7 @@ public class AuthController
 
     [AllowAnonymous]
     [HttpPost]
-    public IActionResult Auth([FromBody] User? user)
+    public ActionResult<string> Auth([FromBody] User? user)
     {
         if (user != null && user.UserName.Equals("test@email.com") && user.Password.Equals("a"))
         {

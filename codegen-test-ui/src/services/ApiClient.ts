@@ -7,20 +7,39 @@
 /* tslint:disable */
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
-import { IConfig, ApiBase } from './ApiBase';
+
+export class ApiBase {
+    private readonly config: IConfig;
+
+    protected constructor(config: IConfig) {
+        this.config = config;
+    }
+
+    protected transformOptions = (options: RequestInit): Promise<RequestInit> => {
+        options.headers = {
+            ...options.headers,
+            Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
+        };
+        return Promise.resolve(options);
+    };
+
+    protected getBaseUrl(defaultUrl: string, baseUrl?: string): string {
+        return this.config.baseUrl;
+    }
+}
 
 export class AuthClient extends ApiBase {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(configuration: IConfig, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+    constructor(configuration: IConfig, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         super(configuration);
         this.http = http ? http : window as any;
-        this.baseUrl = configuration.baseUrl !== undefined && configuration.baseUrl !== null ? configuration.baseUrl : "";
+        this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
-    auth(user: User | null | undefined): Promise<FileResponse | null> {
+    auth(user: User | null | undefined): Promise<string | null> {
         let url_ = this.baseUrl + "/Auth";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -42,26 +61,21 @@ export class AuthClient extends ApiBase {
         });
     }
 
-    protected processAuth(response: Response): Promise<FileResponse | null> {
+    protected processAuth(response: Response): Promise<string | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-            if (fileName) {
-                fileName = decodeURIComponent(fileName);
-            } else {
-                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            }
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+                let result200: any = null;
+                result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as string;
+                return result200;
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
                 return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse | null>(null as any);
+        return Promise.resolve<string | null>(null as any);
     }
 }
 
@@ -70,10 +84,10 @@ export class WeatherForecastClient extends ApiBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(configuration: IConfig, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+    constructor(configuration: IConfig, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         super(configuration);
         this.http = http ? http : window as any;
-        this.baseUrl = configuration.baseUrl !== undefined && configuration.baseUrl !== null ? configuration.baseUrl : "";
+        this.baseUrl = this.getBaseUrl("", baseUrl);
     }
 
     get(): Promise<WeatherForecast[] | null> {
@@ -124,13 +138,6 @@ export interface WeatherForecast {
     summary?: string | undefined;
 }
 
-export interface FileResponse {
-    data: Blob;
-    status: number;
-    fileName?: string;
-    headers?: { [name: string]: any };
-}
-
 export class ApiException extends Error {
     override message: string;
     status: number;
@@ -160,4 +167,18 @@ function throwException(message: string, status: number, response: string, heade
         throw result;
     else
         throw new ApiException(message, status, response, headers, null);
+}
+
+/**
+ * Configuration class needed in base class.
+ * The config is provided to the API client at initialization time.
+ * API clients inherit from #AuthorizedApiBase and provide the config.
+ */
+export class IConfig {
+    /**
+     * Returns a valid value for the Authorization header.
+     * Used to dynamically inject the current auth header.
+     */
+    public baseUrl: string = 'https://localhost:7030/api';
+
 }
