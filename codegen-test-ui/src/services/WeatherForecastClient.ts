@@ -14,10 +14,10 @@ export class AuthClient extends ApiBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(configuration: IConfig, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+    constructor(configuration: IConfig, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         super(configuration);
         this.http = http ? http : window as any;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+        this.baseUrl = configuration.baseUrl !== undefined && configuration.baseUrl !== null ? configuration.baseUrl : "";
     }
 
     auth(user: User | null | undefined): Promise<FileResponse | null> {
@@ -70,10 +70,10 @@ export class WeatherForecastClient extends ApiBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(configuration: IConfig, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+    constructor(configuration: IConfig, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         super(configuration);
         this.http = http ? http : window as any;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+        this.baseUrl = configuration.baseUrl !== undefined && configuration.baseUrl !== null ? configuration.baseUrl : "";
     }
 
     get(): Promise<WeatherForecast[] | null> {

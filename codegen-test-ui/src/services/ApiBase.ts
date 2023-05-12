@@ -8,7 +8,8 @@ export class IConfig {
      * Returns a valid value for the Authorization header.
      * Used to dynamically inject the current auth header.
      */
-    public authorizationToken = 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjY1OGYzNjc2LTM0ZTMtNGZkNS1iNzM1LTVlMWM0NzY5MjU5MSIsInN1YiI6InRlc3RAZW1haWwuY29tIiwiZW1haWwiOiJ0ZXN0QGVtYWlsLmNvbSIsIm5iZiI6MTY4Mzg2MjU3NSwiZXhwIjoxNjgzODYzMTc1LCJpYXQiOjE2ODM4NjI1NzUsImlzcyI6Iklzc3VlciIsImF1ZCI6IkF1ZGllbmNlIn0._c0X4OW6KRkhRrj8jKCeBxyvX7foRkwMcX9SV0PShH_vac7rkpGmv8Vcg3YAjMz5wws3OSBjO7_FA6EFSf7cbg';
+    public baseUrl: string = 'https://localhost:7030/api';
+    public authorizationToken: string = 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjY1OGYzNjc2LTM0ZTMtNGZkNS1iNzM1LTVlMWM0NzY5MjU5MSIsInN1YiI6InRlc3RAZW1haWwuY29tIiwiZW1haWwiOiJ0ZXN0QGVtYWlsLmNvbSIsIm5iZiI6MTY4Mzg2MjU3NSwiZXhwIjoxNjgzODYzMTc1LCJpYXQiOjE2ODM4NjI1NzUsImlzcyI6Iklzc3VlciIsImF1ZCI6IkF1ZGllbmNlIn0._c0X4OW6KRkhRrj8jKCeBxyvX7foRkwMcX9SV0PShH_vac7rkpGmv8Vcg3YAjMz5wws3OSBjO7_FA6EFSf7cbg';
 }
 
 export class ApiBase {

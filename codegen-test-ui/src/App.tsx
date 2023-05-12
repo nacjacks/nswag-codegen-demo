@@ -5,10 +5,11 @@ import { WeatherForecast, WeatherForecastClient } from './services/WeatherForeca
 
 function App() {
   const [weather, setWeather] = React.useState<WeatherForecast[] | null>();
+  const apiConfig = new IConfig();
   
   React.useEffect(() => {
     async function loadWeather() {
-      const weatherClient = new WeatherForecastClient(new IConfig(), "https://localhost:7030/api");
+      const weatherClient = new WeatherForecastClient(apiConfig);
       const forecast = await weatherClient.get();
       setWeather(forecast);
     }
