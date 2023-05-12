@@ -33,6 +33,7 @@ public class AuthController
 
             var subject = new ClaimsIdentity(new[]
             {
+                new Claim("Id", Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Email, user.UserName),
             });

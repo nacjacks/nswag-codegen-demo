@@ -3,6 +3,7 @@ using codegen_test_api.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using NSwag;
+using NSwag.Generation.Processors.Security;
 
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(c =>
 {
-    c.AddSecurity("Bearer", new OpenApiSecurityScheme
+    c.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
     {
         Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
                       Enter 'Bearer' [space] and then your token in the text input below.
@@ -24,6 +25,8 @@ builder.Services.AddOpenApiDocument(c =>
         Type = OpenApiSecuritySchemeType.ApiKey,
         Scheme = JwtBearerDefaults.AuthenticationScheme
     });
+    
+    c.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
 });
 builder.Services.AddControllers(o =>
 {
@@ -72,6 +75,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(myAllowSpecificOrigins);
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 IConfiguration configuration = app.Configuration;
 IWebHostEnvironment environment = app.Environment;
