@@ -24,7 +24,7 @@ export class ApiBase {
     };
 
     protected getBaseUrl(defaultUrl: string, baseUrl?: string): string {
-        return this.config.baseUrl;
+        return this.config.baseUrl ?? '';
     }
 }
 
@@ -179,6 +179,6 @@ export class IConfig {
      * Returns a valid value for the Authorization header.
      * Used to dynamically inject the current auth header.
      */
-    public baseUrl: string = 'https://localhost:7030/api';
+    public baseUrl: string | undefined = process.env.REACT_APP_BASE_URL
 
 }

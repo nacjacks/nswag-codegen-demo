@@ -16,6 +16,10 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="client\" />
+    </ItemGroup>
+
     <Target Name="NSwag" AfterTargets="Build">
         <Exec Command="$(NSwagExe_Net60) run nswag.json" />
     </Target>

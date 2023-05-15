@@ -96,7 +96,7 @@
       "useLeafType": false,
       "classTypes": [],
       "extendedClasses": [],
-      "extensionCode": "../generated/apiBase.ts",
+      "extensionCode": "client/apiBase.ts",
       "generateDefaultValues": true,
       "excludedTypeNames": [],
       "excludedParameterNames": [],
