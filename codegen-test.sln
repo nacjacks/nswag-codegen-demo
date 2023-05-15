@@ -5,6 +5,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{1A687302-680E-448A-9FAF-6A02144330F5}"
 	ProjectSection(SolutionItems) = preProject
 		generated\apiClient.ts = generated\apiClient.ts
+		package\package.json = package\package.json
 	EndProjectSection
 EndProject
 Global
