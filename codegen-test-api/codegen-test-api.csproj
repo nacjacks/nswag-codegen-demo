@@ -22,5 +22,7 @@
 
     <Target Name="NSwag" AfterTargets="Build">
         <Exec Command="$(NSwagExe_Net60) run nswag.json" />
+        <Exec Command="npm link" WorkingDirectory="../generated" />
+        <Exec Command="npm pack" WorkingDirectory="../generated" />
     </Target>
 </Project>

@@ -10,3 +10,4 @@ riderModule.iml
 /.idea/.idea.*/.idea/*
 !/.idea/.idea.*/.idea/runConfigurations
 generated/
+.DS_Store
