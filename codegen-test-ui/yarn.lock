@@ -2550,10 +2550,6 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apiclient@../package/apiclient-v1.0.4.tgz:
-  version "1.0.4"
-  resolved "../package/apiclient-v1.0.4.tgz#ee51be7e9966b30000e48ba9bb8020fe4021af71"
-
 arg@^5.0.2:
   version "5.0.2"
   resolved "https://registry.npmjs.org/arg/-/arg-5.0.2.tgz"
@@ -3131,6 +3127,10 @@ coa@^2.0.2:
     "@types/q" "^1.5.1"
     chalk "^2.4.1"
     q "^1.1.2"
+
+codegen-test-apiClient@../package/apiclient-v1.0.6.tgz:
+  version "1.0.6"
+  resolved "../package/apiclient-v1.0.6.tgz#42b6cee8022241586619facda95eede70d7d84a6"
 
 collect-v8-coverage@^1.0.0:
   version "1.0.1"

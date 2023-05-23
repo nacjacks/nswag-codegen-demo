@@ -21,8 +21,8 @@
     </ItemGroup>
 
     <Target Name="NSwag" AfterTargets="Build">
-        <Exec Command="$(NSwagExe_Net60) run nswag.json" />
-        <Exec Command="tsc ../generated/apiClient.ts  --outDir ../package --declaration true" />
+        <Exec Command="$(NSwagExe_Net60) run nswag.json /variables:ProjectName=$(MSBuildProjectName)" />
+        <Exec Command="tsc ../generated/$(MSBuildProjectName)Client.ts  --outDir ../package --declaration true" />
         <Exec Command="yarn link" WorkingDirectory="../package" />
         <Exec Command="yarn pack" WorkingDirectory="../package" />
     </Target>
