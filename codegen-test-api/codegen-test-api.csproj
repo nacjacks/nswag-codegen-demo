@@ -21,6 +21,6 @@
     </ItemGroup>
 
     <Target Name="NSwag" AfterTargets="Build">
-        <Exec Command="$(NSwagExe_Net60) run nswag.json" />
+        <Exec Command="$(NSwagExe_Net60) run nswag.json /variables:ProjectName=$(MSBuildProjectName)" />
     </Target>
 </Project>

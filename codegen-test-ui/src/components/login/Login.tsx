@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './Login.css';
-import {AuthClient, IConfig, User} from '../../services/ApiClient';
+import {AuthClient, IConfig, User} from '../../services/codegen-test-apiClient';
 import {useNavigate} from 'react-router-dom';
 
 function Login() {
