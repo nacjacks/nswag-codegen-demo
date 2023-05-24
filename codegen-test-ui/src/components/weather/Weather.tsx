@@ -1,6 +1,6 @@
 import React from 'react';
 import './Weather.css';
-import {WeatherForecast, IConfig, WeatherForecastClient} from 'apiclient';
+import {WeatherForecast, IConfig, WeatherForecastClient} from 'codegen-test-apiClient';
 
 function Weather() {
     const [weather, setWeather] = React.useState<WeatherForecast[] | null>();
